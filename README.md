@@ -19,3 +19,6 @@ The program does **not** claim any intellectual property. The code is completely
 
 **To compile into .exe:**
 pyinstaller --noconfirm --onefile --windowed text_manager.py
+## Screenshots
+
+![Main Interface](photo_2026-05-21_18-46-45.jpg)
