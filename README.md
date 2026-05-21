@@ -22,3 +22,4 @@ pyinstaller --noconfirm --onefile --windowed text_manager.py
 ## Screenshots
 
 ![Main Interface](photo_2026-05-21_18-46-45.jpg)
+**License**: MIT — completely free to use, modify and distribute.
