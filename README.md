@@ -1,25 +1,52 @@
-The program is designed primarily for fast processing of description files for machine learning datasets (especially for training LoRA / Stable Diffusion models). It allows you to quickly view, edit, and perform mass search-and-replace operations across hundreds of text files at once.
+# TextManager
 
-### Key Features:
-- Load all `.txt` files from a folder with one click
-- Line-by-line editing interface (each file on a separate line)
-- Powerful **Batch Replace** tool (search and replace text/tags across all files)
-- Two sorting options: by filename or by modification date
-- Built-in protection against accidental overwriting of original files
-- Supports UTF-8 and Cyrillic encodings
-- Clean, lightweight, and easy-to-use GUI
+A powerful, lightweight Tkinter-based desktop application designed for efficient text and dataset management. Ideal for bulk editing, cleaning, and preparing text captions for machine learning and generative AI training workflows.
 
-The program does **not** claim any intellectual property. The code is completely free — you can modify, improve, distribute, or use it for any purpose.
+---
 
-### How to use:
-1. Select input folder with your `.txt` files
-2. Select output folder (must be different from input)
-3. Edit texts manually or use mass replace
-4. Click **Export Edits** to save all changes
+## Technical Enhancements (v2)
 
-**To compile into .exe:**
-pyinstaller --noconfirm --onefile --windowed text_manager.py
-## Screenshots
+The current version introduces architectural changes, interface unification, and modern display compatibility:
 
-![Main Interface](photo_2026-05-21_18-46-45.jpg)
-**License**: MIT — completely free to use, modify and distribute.
+*   **HiDPI / 4K Monitor Support:** Native integration via OS-level DPI awareness (`ctypes` wrapper for Windows systems). Text, widgets, and canvas elements render crisply without system blurring or layout distortion.
+*   **Unified Translation:** Complete overhaul of all dialogues, notifications, and error states into clean, context-accurate technical English.
+*   **Optimized Memory Lifecycle:** Implements a strict two-tier data management system. Edits are handled in an isolated memory cache (`text_cache`) and matched against raw pristine disk snapshots (`disk_snapshots`) before any file write operations occur.
+*   **Dynamic Data Contextualization:** Action states and warning modals adapt seamlessly to runtime choices, ensuring clear file tracking across modes.
+
+---
+
+## Dual-Mode Architecture
+
+### 1. Batch Mode (Line-by-Line Editor)
+Designed for mass modifications and global overviews of text-only files.
+
+*   **Granular Interface:** Dynamically maps every `.txt` file in the directory to an isolated row widget with permanent filename tracking.
+*   **Flexible Sorting Logic:** Instant indexing by strict alphanumeric filename patterns or reverse chronological order (by last modification date).
+*   **Global Batch Replace Panel:** Allows execution of massive find-and-replace queries spanning across the entire memory cache simultaneously.
+*   **Bulk Export Gate:** Features a dedicated export mechanism to deploy modified caches to target output paths safely without overlapping raw inputs.
+
+### 2. Img+Txt Mode (Paired View)
+Tailored specifically for dataset validation, pairing images directly with their corresponding text files or text descriptions.
+
+*   **Asynchronous Scaling Canvas:** High-performance responsive image preview using PIL/Pillow with Lanczos resampling filters, adjusting on-the-fly to window scaling.
+*   **Contextual Safety Modals:** Integrated protection warning loops that check current field modifications against disk snapshots when skipping files, preventing accidental data loss.
+*   **Hotkeys & Navigation:** Full binding mapping support for quick switching (`F1` / `Left Arrow` for Previous, `F2` / `Right Arrow` for Next).
+
+---
+
+## Interface Previews
+
+### Batch Mode View
+![Batch Mode Overview](batch.png)
+
+### Img+Txt Mode View
+![Img+Txt Mode Overview](imgtxt.png)
+
+---
+
+## Legacy Limitations (v1 Retrospective)
+Compared to the current version, the initial prototype (`v1`) had architectural gaps that limited production workflows:
+*   **No HiDPI Awareness:** UI scaled poorly on high-resolution/4K screens, resulting in blurry fonts and layout clipping.
+*   **Lack of Paired Validation:** Missing an interactive canvas view, making it impossible to evaluate text files directly alongside graphical inputs.
+*   **No Multi-Format Fallbacks:** Lacked flexible codec mapping during directory parses, which frequently led to crash loops or data dropouts when reading non-UTF-8 character sets.
+*   **No Contextual State Guardrails:** Lacked verification loops to catch volatile memory changes before interface navigation or directory updates.
