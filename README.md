@@ -7,7 +7,41 @@ A powerful, lightweight Tkinter-based desktop application designed for efficient
 
 ---
 
-## v3 — Current Release
+## v4 — Current Release
+
+### New Features
+
+- **Fix Tool:** One mini-window for cleaning up descriptions, available in both modes. Tick what should be fixed, press `OK` (or `Cancel`) — only the selected changes are applied. The window is opened from:
+  - **Img+Txt Mode:** `🔧 FIX` button next to `SAVE`. Apply to the *current file* or to *all files*. After a fix of all files the app offers to export every modified file right away.
+  - **Batch Mode:** `🔧 Fix all...` button in the Batch Replace panel (all loaded `.txt` files) and a `🔧` button in every row (that single file only).
+
+  Available options (selection is remembered until the app is closed):
+  - **Remove line breaks** — joins text split into blocks into one single line; empty lines are dropped.
+  - **Collapse multiple spaces / trim edges**
+  - **Collapse repeated commas and periods** — `,,` `,,,` `, ,` `..` become a single `,` / `.`
+  - **Remove space before comma / period** — `word , word` → `word, word`
+  - **Add missing space after comma / period** — `,word` → `, word`, `.word` → `. word`. Numbers (`1.5`, `1,000`, `v2.0`) and abbreviations like `e.g.` are left untouched.
+  - **Remove repeated tags in one text** *(off by default)* — tags are detected as pieces between `, ` / `. ` separators; comparison ignores case; the first occurrence stays, later copies are removed (`a, b, a.` → `a, b.`).
+  - **Add a period at the very end if missing** — a trailing comma is replaced by a period.
+
+  Empty files are always skipped, so no file ever turns into a lone `.`.
+
+- **Add Text at the Start:** Optional field in the Fix window. Prepends the given text (plus one space) to every selected file — useful when a tag must be added to an already finished dataset. Files that already start with this text are skipped, so pressing it twice never duplicates anything. The checkbox is intentionally unchecked every time the window is opened, to prevent applying an outdated prefix by accident. The text is inserted exactly as typed, so include the trailing comma yourself.
+
+- **Undo for Bulk Actions (both modes):** `↶ UNDO (n)` buttons next to `FIX` (Img+Txt) and in the Batch Replace panel (Batch). The last **15** bulk actions are stored — `Fix`, `Add text` and `Batch Replace`. Only files that actually changed are stored, so the history is practically free in memory. Details:
+  - A file edited by hand *after* the action is not overwritten by Undo; the app reports how many files were skipped.
+  - The status bar briefly shows what was undone.
+  - The history is cleared on every new import.
+  - Undone files return to the "modified" state relative to the output folder, so they can be saved again as usual.
+
+### Changes
+
+- **Batch Replace** now counts and reports only the files that were actually changed (previously every file containing the search string was counted, even when the replacement produced identical text).
+- **Status Bar** can show a short one-time note (e.g. after Undo) that disappears on the next refresh.
+
+---
+
+## v3
 
 ### New Features
 
@@ -61,7 +95,7 @@ A powerful, lightweight Tkinter-based desktop application designed for efficient
 
 ## v2
 
-See [Technical Enhancements (v2)](#technical-enhancements-v2) section above.
+See [Technical Enhancements (v2)](#technical-enhancements-v2) section below.
 
 ---
 
